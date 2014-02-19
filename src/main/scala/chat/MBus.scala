@@ -8,7 +8,8 @@ object MBus{
   
   def main(args: Array[String]) {
       val system = ActorSystem("testActors")
-	  val subscriber =  system.actorOf(Props[WebHookSubscriber], "subscriber");
-	  val publisher = system.actorOf(Props[WebhookPublisher], "publisher")
+      val mediator = DistributedPubSubExtension(system).mediator
+	  val subscriber =  system.actorOf(WebHookSubscriber.props(mediator), "subscriber");
+	  val publisher = system.actorOf(WebhookPublisher.props(mediator), "publisher")
   }
 }
